@@ -1,0 +1,12 @@
+.word-attempts {
+  .line {
+    display: flex;
+    margin-bottom: 10px;
+
+    .letter {
+      border: 1px solid black;
+      width: 25px;
+      height: 25px;
+    }
+  }
+}
