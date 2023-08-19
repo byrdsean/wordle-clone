@@ -1,0 +1,22 @@
+{
+  "name": "wordle-clone",
+  "version": "1.0.0",
+  "description": "Custom Implementation of a Wordle Clone",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byrdsean/wordle-clone.git"
+  },
+  "keywords": [
+    "wordle"
+  ],
+  "author": "Sean Byrd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/byrdsean/wordle-clone/issues"
+  },
+  "homepage": "https://github.com/byrdsean/wordle-clone#readme"
+}
