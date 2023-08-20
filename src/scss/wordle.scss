@@ -4,6 +4,7 @@
   --darkgray: rgba(120, 124, 126, 1);
   --green: rgba(106, 170, 100, 1);
   --yellow: rgba(201, 180, 88, 1);
+  --white: rgba(255, 255, 255, 1);
 }
 
 body {
@@ -51,6 +52,21 @@ header {
         text-transform: uppercase;
         font-size: 2rem;
         font-weight: 700;
+
+        &.correct-location {
+          background-color: var(--green);
+          color: var(--white);
+        }
+
+        &.incorrect-location {
+          background-color: var(--yellow);
+          color: var(--white);
+        }
+
+        &.not-found {
+          background-color: var(--darkgray);
+          color: var(--white);
+        }
       }
     }
   }
