@@ -167,6 +167,21 @@ body {
             max-width: 60px;
             font-size: 0.75rem;
           }
+
+          &.correct-location {
+            background-color: var(--green);
+            color: var(--white);
+          }
+
+          &.incorrect-location {
+            background-color: var(--yellow);
+            color: var(--white);
+          }
+
+          &.not-found {
+            background-color: var(--darkgray);
+            color: var(--white);
+          }
         }
       }
     }
