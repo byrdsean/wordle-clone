@@ -83,8 +83,11 @@ const validateValue = () => {
     const letterValue = letter.innerHTML;
     const letterMetric = currentWordMetrics.get(letterValue) || [];
 
+    const key = document.querySelector(`.key[value='${letterValue}']`);
+
     if (letterMetric.length === 0) {
       letter.classList.add("not-found");
+      setKeyStyle(key, "not-found");
       return;
     }
 
@@ -92,10 +95,16 @@ const validateValue = () => {
     const locationClass =
       matchedIndex === undefined ? "incorrect-location" : "correct-location";
     letter.classList.add(locationClass);
+    setKeyStyle(key, locationClass);
   });
 
   currentLineIndex++;
   checkIfEndGame();
+};
+
+const setKeyStyle = (key, style) => {
+  if (key.classList.length !== 1) return;
+  key.classList.add(style);
 };
 
 const showNotEnough = () => {
@@ -143,6 +152,13 @@ const resetGame = () => {
   Array.from(document.querySelectorAll(".letter")).forEach((letter) => {
     letter.innerHTML = "";
     letter.classList = ["letter"];
+  });
+
+  Array.from(document.querySelectorAll(".key")).forEach((key) => {
+    const validStyles = Array.from(key.classList).filter((style) => {
+      return style === "key" || style === "enter" || style === "backspace";
+    });
+    key.classList = validStyles.join(" ");
   });
 
   currentLineIndex = 0;
