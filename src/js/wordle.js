@@ -70,7 +70,11 @@ const addLetter = (value) => {
   const nextLetter = getCurrentLineLetters().find(
     (letter) => letter.innerHTML?.length === 0
   );
-  if (nextLetter) nextLetter.innerHTML = value;
+  if (nextLetter) {
+    nextLetter.innerHTML = value;
+
+    //TODO: add styling to embiggen the active letter
+  }
 };
 
 const validateValue = () => {
