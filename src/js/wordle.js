@@ -3,6 +3,8 @@ const lines = document.querySelectorAll(".line");
 let currentLineIndex = 0;
 let currentWord;
 let currentWordMetrics;
+let showNotEnoughTimeout;
+let isGameOver = false;
 
 document.querySelectorAll(".key").forEach((element) => {
   element.addEventListener("click", (e) => {
@@ -14,6 +16,14 @@ window.addEventListener("keydown", (e) => {
   keypress(e.key);
 });
 
+document.querySelector("#playAgainYes").addEventListener("click", (e) => {
+  resetGame();
+});
+
+document.querySelector("#playAgainNo").addEventListener("click", (e) => {
+  document.querySelector("#playAgain").classList.remove("show");
+});
+
 const getCurrentWord = () => {
   const index = Math.floor(Math.random() * library.length);
   return library[index].toUpperCase();
@@ -23,32 +33,19 @@ const setWordMetrics = (word) => {
   const metrics = new Map();
   if (!word) return metrics;
 
-  for (let i = 0; i < word.length; i++) {
-    const letter = word.charAt(i);
-    const letterMetric = metrics.get(letter);
-    if (letterMetric) {
-      metrics.set(letter, [...letterMetric, i]);
-    } else {
-      metrics.set(letter, [i]);
-    }
-  }
+  word.split("").forEach((letter, index) => {
+    const letterMetric = metrics.get(letter) || [];
+    metrics.set(letter, [...letterMetric, index]);
+  });
   return metrics;
 };
 
 const keypress = (value) => {
-  if (!value) return;
-
-  if (value.toUpperCase() === "ENTER") {
-    validateValue();
-    return;
-  }
-
-  if (value.toUpperCase() === "BACKSPACE") {
-    removeLetter();
-    return;
-  }
-
+  if (isGameOver || !value || lines.length <= currentLineIndex) return;
+  if (value.toUpperCase() === "ENTER") return validateValue();
+  if (value.toUpperCase() === "BACKSPACE") return removeLetter();
   if (value.length !== 1) return;
+
   const upperValue = value.toUpperCase();
 
   const asciiA = "A".charCodeAt(0);
@@ -59,36 +56,28 @@ const keypress = (value) => {
   addLetter(upperValue);
 };
 
-const getCurrentLineLetters = () => {
-  const currentLine = lines[currentLineIndex];
-  return Array.from(currentLine.querySelectorAll(".letter"));
-};
+const getCurrentLineLetters = () =>
+  Array.from(lines[currentLineIndex].querySelectorAll(".letter"));
 
 const removeLetter = () => {
   const toRemove = getCurrentLineLetters()
     .reverse()
     .find((letter) => letter.innerHTML?.length !== 0);
-  if (!toRemove) return;
-  toRemove.innerHTML = "";
+  if (toRemove) toRemove.innerHTML = "";
 };
 
 const addLetter = (value) => {
   const nextLetter = getCurrentLineLetters().find(
     (letter) => letter.innerHTML?.length === 0
   );
-  if (!nextLetter) return;
-  nextLetter.innerHTML = value;
+  if (nextLetter) nextLetter.innerHTML = value;
 };
 
 const validateValue = () => {
   const letters = getCurrentLineLetters();
 
   const emptyLetter = letters.find((letter) => letter.innerHTML?.length === 0);
-  if (emptyLetter) {
-    //Show not enough letter message
-    console.log("Not enough letters!");
-    return;
-  }
+  if (emptyLetter) return showNotEnough();
 
   letters.forEach((letter, index) => {
     const letterValue = letter.innerHTML;
@@ -100,12 +89,71 @@ const validateValue = () => {
     }
 
     const matchedIndex = letterMetric.find((metric) => metric === index);
-    if (matchedIndex !== undefined) {
-      letter.classList.add("correct-location");
-    } else {
-      letter.classList.add("incorrect-location");
-    }
+    const locationClass =
+      matchedIndex === undefined ? "incorrect-location" : "correct-location";
+    letter.classList.add(locationClass);
   });
+
+  currentLineIndex++;
+  checkIfEndGame();
+};
+
+const showNotEnough = () => {
+  const notEnoughLetters = document.querySelector("#notEnoughLetters");
+  if (notEnoughLetters) notEnoughLetters.classList.add("show");
+
+  if (!showNotEnoughTimeout) {
+    clearInterval(showNotEnoughTimeout);
+  }
+
+  showNotEnoughTimeout = setTimeout(() => {
+    notEnoughLetters.classList.remove("show");
+  }, 1000);
+};
+
+const checkIfEndGame = () => {
+  const lastLine = lines[currentLineIndex - 1];
+  const lastWordAdded = Array.from(lastLine.querySelectorAll(".letter"))
+    .map((letter) => letter.innerHTML)
+    .join("");
+
+  const didUserWin = lastWordAdded === currentWord.toUpperCase();
+  if (didUserWin) {
+    document.querySelector("#wonPopup").classList.add("show");
+    isGameOver = true;
+  } else if (lines.length <= currentLineIndex) {
+    const failurePopup = document.querySelector("#failurePopup");
+    if (failurePopup) {
+      failurePopup.querySelector("#puzzleWord").innerHTML = currentWord;
+      failurePopup.classList.add("show");
+    }
+    isGameOver = true;
+  }
+
+  if (isGameOver) {
+    document.querySelector("#playAgain").classList.add("show");
+  }
+};
+
+const resetGame = () => {
+  Array.from(document.querySelectorAll(".popup")).forEach((popup) => {
+    popup.classList.remove("show");
+  });
+
+  Array.from(document.querySelectorAll(".letter")).forEach((letter) => {
+    letter.innerHTML = "";
+    letter.classList = ["letter"];
+  });
+
+  currentLineIndex = 0;
+  currentWord = getCurrentWord();
+  setWordMetrics(currentWord);
+  isGameOver = false;
+
+  if (showNotEnoughTimeout) {
+    clearInterval(showNotEnoughTimeout);
+    showNotEnoughTimeout = null;
+  }
 };
 
 const startGame = () => {
