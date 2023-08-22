@@ -3,59 +3,80 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Wordle Clone</title>
     <link rel="stylesheet" href="src/css/wordle.css" />
   </head>
   <body>
     <header>
-      <h1>Wordle</h1>
+      <h1>Wordle Clone</h1>
     </header>
-    <section class="game-board">
-      <section class="word-attempts">
-        <div class="line">
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-        </div>
-        <div class="line">
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-        </div>
-        <div class="line">
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-        </div>
-        <div class="line">
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-        </div>
-        <div class="line">
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-        </div>
-        <div class="line">
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-          <div class="letter"></div>
-        </div>
+    <section id="game-board">
+      <section id="word-board">
+        <section id="word-attempts">
+          <div class="line">
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+          </div>
+          <div class="line">
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+          </div>
+          <div class="line">
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+          </div>
+          <div class="line">
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+          </div>
+          <div class="line">
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+          </div>
+          <div class="line">
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+            <div class="letter"></div>
+          </div>
+        </section>
+        <section id="popups">
+          <div id="windows">
+            <div id="failurePopup" class="popup">
+              <p>Sorry, you lose.</p>
+              <p>Word: <span id="puzzleWord"></span></p>
+            </div>
+            <div id="wonPopup" class="popup">
+              <p>Congrats, you won!</p>
+            </div>
+            <div id="notEnoughLetters" class="popup">
+              <p>Not enough letters</p>
+            </div>
+            <div id="playAgain" class="popup">
+              <p>Play Again?</p>
+              <button id="playAgainYes">Yes</button>
+              <button id="playAgainNo">No</button>
+            </div>
+          </div>
+        </section>
       </section>
-      <section class="keyboard">
+      <section id="keyboard">
         <div class="keyrow">
           <button class="key" value="Q">Q</button>
           <button class="key" value="W">W</button>
