@@ -5,7 +5,28 @@
   --green: rgba(106, 170, 100, 1);
   --yellow: rgba(201, 180, 88, 1);
   --white: rgba(255, 255, 255, 1);
-  --black: rgba(18, 18, 18, 1); }
+  --black: rgba(18, 18, 18, 1);
+  --red: rgba(193, 40, 27, 1); }
+
+@keyframes shake-letter {
+  0% {
+    transform: scale(1); }
+  50% {
+    transform: scale(1.25); }
+  100% {
+    transform: scale(1); } }
+
+@keyframes shake-line {
+  0% {
+    translate: 0; }
+  25% {
+    translate: -5px; }
+  50% {
+    translate: 0; }
+  75% {
+    translate: 5px; }
+  100% {
+    translate: 0; } }
 
 body {
   margin: 0;
@@ -19,9 +40,9 @@ body {
     justify-content: center;
     align-items: center;
     padding: 0;
-    margin-bottom: 10px; }
+    margin-bottom: 20px; }
     body header h1 {
-      margin: 0; }
+      margin: 10px 0; }
   body #game-board {
     max-width: 1200px;
     width: 100%;
@@ -36,16 +57,22 @@ body {
           display: flex;
           margin-bottom: 10px;
           justify-content: space-between; }
+          body #game-board #word-board #word-attempts .line.shake-line {
+            animation-duration: 0.1s;
+            animation-name: shake-line;
+            animation-iteration-count: 5; }
           body #game-board #word-board #word-attempts .line .letter {
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid var(--black);
+            border: 1px solid var(--darkgray);
             width: 50px;
             height: 50px;
             text-transform: uppercase;
             font-size: 2rem;
             font-weight: 700; }
+            body #game-board #word-board #word-attempts .line .letter.populated {
+              border: 1px solid var(--black); }
             body #game-board #word-board #word-attempts .line .letter.correct-location {
               background-color: var(--green);
               color: var(--white); }
@@ -55,6 +82,10 @@ body {
             body #game-board #word-board #word-attempts .line .letter.not-found {
               background-color: var(--darkgray);
               color: var(--white); }
+            body #game-board #word-board #word-attempts .line .letter.shake {
+              animation-duration: 0.25s;
+              animation-name: shake-letter;
+              animation-iteration-count: initial; }
       body #game-board #word-board #popups {
         position: absolute;
         width: 100%;
@@ -83,7 +114,24 @@ body {
             body #game-board #word-board #popups #windows .popup#wonPopup {
               max-width: 200px; }
             body #game-board #word-board #popups #windows .popup #puzzleWord {
-              text-transform: uppercase; }
+              text-transform: uppercase;
+              font-weight: 600; }
+            body #game-board #word-board #popups #windows .popup#playAgain p {
+              margin: 0 0 10px 0; }
+            body #game-board #word-board #popups #windows .popup#playAgain button {
+              border: 0;
+              background-color: var(--gray);
+              color: var(--white);
+              width: 60px;
+              padding: 5px 0;
+              border-radius: 10px;
+              margin-right: 10px; }
+              body #game-board #word-board #popups #windows .popup#playAgain button:last-of-type {
+                margin-right: 0; }
+              body #game-board #word-board #popups #windows .popup#playAgain button#playAgainYes {
+                background-color: var(--green); }
+              body #game-board #word-board #popups #windows .popup#playAgain button#playAgainNo {
+                background-color: var(--red); }
           body #game-board #word-board #popups #windows p {
             margin: 0 0 10px 0; }
             body #game-board #word-board #popups #windows p:last-of-type {

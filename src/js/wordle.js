@@ -6,6 +6,17 @@ let currentWordMetrics;
 let showNotEnoughTimeout;
 let isGameOver = false;
 
+const styleNames = {
+  SHOW_POPUP: "show",
+  POPULATED_LETTER: "populated",
+  SHAKE_LETTER: "shake",
+  SHAKE_LINE: "shake-line",
+  NOTFOUND_LETTER: "not-found",
+  INCORRECT_LOCATION_LETTER: "incorrect-location",
+  CORRECT_LOCATION: "correct-location",
+  DEFAULT_KEY_STYLES: ["key", "enter", "backspace"],
+};
+
 document.querySelectorAll(".key").forEach((element) => {
   element.addEventListener("click", (e) => {
     keypress(e.target.value);
@@ -21,7 +32,7 @@ document.querySelector("#playAgainYes").addEventListener("click", (e) => {
 });
 
 document.querySelector("#playAgainNo").addEventListener("click", (e) => {
-  document.querySelector("#playAgain").classList.remove("show");
+  document.querySelector("#playAgain").classList.remove(styleNames.SHOW_POPUP);
 });
 
 const getCurrentWord = () => {
@@ -63,21 +74,46 @@ const removeLetter = () => {
   const toRemove = getCurrentLineLetters()
     .reverse()
     .find((letter) => letter.innerHTML?.length !== 0);
-  if (toRemove) toRemove.innerHTML = "";
+  if (toRemove) {
+    toRemove.innerHTML = "";
+    toRemove.classList.remove(styleNames.POPULATED_LETTER);
+    shakeLetter(toRemove);
+  }
 };
 
 const addLetter = (value) => {
   const nextLetter = getCurrentLineLetters().find(
     (letter) => letter.innerHTML?.length === 0
   );
-  if (nextLetter) nextLetter.innerHTML = value;
+  if (nextLetter) {
+    nextLetter.innerHTML = value;
+    nextLetter.classList.add(styleNames.POPULATED_LETTER);
+    shakeLetter(nextLetter);
+  }
+};
+
+const shakeLetter = (letter) => {
+  letter.classList.add(styleNames.SHAKE_LETTER);
+
+  setTimeout(() => {
+    letter.classList.remove(styleNames.SHAKE_LETTER);
+  }, 250);
 };
 
 const validateValue = () => {
   const letters = getCurrentLineLetters();
 
   const emptyLetter = letters.find((letter) => letter.innerHTML?.length === 0);
-  if (emptyLetter) return showNotEnough();
+  if (emptyLetter) {
+    lines[currentLineIndex].classList.add(styleNames.SHAKE_LINE);
+    showNotEnough();
+
+    setTimeout(() => {
+      lines[currentLineIndex].classList.remove(styleNames.SHAKE_LINE);
+    }, 500);
+
+    return;
+  }
 
   letters.forEach((letter, index) => {
     const letterValue = letter.innerHTML;
@@ -86,14 +122,16 @@ const validateValue = () => {
     const key = document.querySelector(`.key[value='${letterValue}']`);
 
     if (letterMetric.length === 0) {
-      letter.classList.add("not-found");
-      setKeyStyle(key, "not-found");
+      letter.classList.add(styleNames.NOTFOUND_LETTER);
+      setKeyStyle(key, styleNames.NOTFOUND_LETTER);
       return;
     }
 
     const matchedIndex = letterMetric.find((metric) => metric === index);
     const locationClass =
-      matchedIndex === undefined ? "incorrect-location" : "correct-location";
+      matchedIndex === undefined
+        ? styleNames.INCORRECT_LOCATION_LETTER
+        : styleNames.CORRECT_LOCATION;
     letter.classList.add(locationClass);
     setKeyStyle(key, locationClass);
   });
@@ -109,14 +147,14 @@ const setKeyStyle = (key, style) => {
 
 const showNotEnough = () => {
   const notEnoughLetters = document.querySelector("#notEnoughLetters");
-  if (notEnoughLetters) notEnoughLetters.classList.add("show");
+  if (notEnoughLetters) notEnoughLetters.classList.add(styleNames.SHOW_POPUP);
 
   if (!showNotEnoughTimeout) {
     clearInterval(showNotEnoughTimeout);
   }
 
   showNotEnoughTimeout = setTimeout(() => {
-    notEnoughLetters.classList.remove("show");
+    notEnoughLetters.classList.remove(styleNames.SHOW_POPUP);
   }, 1000);
 };
 
@@ -128,25 +166,25 @@ const checkIfEndGame = () => {
 
   const didUserWin = lastWordAdded === currentWord.toUpperCase();
   if (didUserWin) {
-    document.querySelector("#wonPopup").classList.add("show");
+    document.querySelector("#wonPopup").classList.add(styleNames.SHOW_POPUP);
     isGameOver = true;
   } else if (lines.length <= currentLineIndex) {
     const failurePopup = document.querySelector("#failurePopup");
     if (failurePopup) {
       failurePopup.querySelector("#puzzleWord").innerHTML = currentWord;
-      failurePopup.classList.add("show");
+      failurePopup.classList.add(styleNames.SHOW_POPUP);
     }
     isGameOver = true;
   }
 
   if (isGameOver) {
-    document.querySelector("#playAgain").classList.add("show");
+    document.querySelector("#playAgain").classList.add(styleNames.SHOW_POPUP);
   }
 };
 
 const resetGame = () => {
   Array.from(document.querySelectorAll(".popup")).forEach((popup) => {
-    popup.classList.remove("show");
+    popup.classList.remove(styleNames.SHOW_POPUP);
   });
 
   Array.from(document.querySelectorAll(".letter")).forEach((letter) => {
@@ -156,7 +194,7 @@ const resetGame = () => {
 
   Array.from(document.querySelectorAll(".key")).forEach((key) => {
     const validStyles = Array.from(key.classList).filter((style) => {
-      return style === "key" || style === "enter" || style === "backspace";
+      return styleNames.DEFAULT_KEY_STYLES.includes(style);
     });
     key.classList = validStyles.join(" ");
   });
