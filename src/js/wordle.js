@@ -148,10 +148,7 @@ const setKeyStyle = (key, style) => {
 const showNotEnough = () => {
   const notEnoughLetters = document.querySelector("#notEnoughLetters");
   if (notEnoughLetters) notEnoughLetters.classList.add(styleNames.SHOW_POPUP);
-
-  if (!showNotEnoughTimeout) {
-    clearInterval(showNotEnoughTimeout);
-  }
+  if (!showNotEnoughTimeout) clearInterval(showNotEnoughTimeout);
 
   showNotEnoughTimeout = setTimeout(() => {
     notEnoughLetters.classList.remove(styleNames.SHOW_POPUP);
@@ -171,7 +168,7 @@ const checkIfEndGame = () => {
   } else if (lines.length <= currentLineIndex) {
     const failurePopup = document.querySelector("#failurePopup");
     if (failurePopup) {
-      failurePopup.querySelector("#puzzleWord").innerHTML = currentWord;
+      showPuzzleWord(failurePopup.querySelector("#puzzleWord"));
       failurePopup.classList.add(styleNames.SHOW_POPUP);
     }
     isGameOver = true;
@@ -180,6 +177,28 @@ const checkIfEndGame = () => {
   if (isGameOver) {
     document.querySelector("#playAgain").classList.add(styleNames.SHOW_POPUP);
   }
+};
+
+const showPuzzleWord = (container) => {
+  if (!container || !currentWord) return;
+  const keys = Array.from(document.querySelectorAll(".key"));
+  currentWord.split("").forEach((letter) => {
+    const span = document.createElement("span");
+    span.innerHTML = letter;
+
+    const letterKey = keys.find((key) => key.getAttribute("value") === letter);
+    const letterStyles = Array.from(letterKey.classList);
+
+    if (letterStyles.includes(styleNames.INCORRECT_LOCATION_LETTER)) {
+      span.classList.add(styleNames.INCORRECT_LOCATION_LETTER);
+    } else if (letterStyles.includes(styleNames.CORRECT_LOCATION)) {
+      span.classList.add(styleNames.CORRECT_LOCATION);
+    } else {
+      span.classList.add(styleNames.NOTFOUND_LETTER);
+    }
+
+    container.appendChild(span);
+  });
 };
 
 const resetGame = () => {
@@ -198,6 +217,8 @@ const resetGame = () => {
     });
     key.classList = validStyles.join(" ");
   });
+
+  document.querySelector("#puzzleWord").innerHTML = "";
 
   currentLineIndex = 0;
   currentWord = getCurrentWord();

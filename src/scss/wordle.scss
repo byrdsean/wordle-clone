@@ -158,8 +158,30 @@ body {
             }
 
             #puzzleWord {
-              text-transform: uppercase;
-              font-weight: 600;
+              span {
+                padding: 2px;
+                margin-right: 2px;
+                font-weight: 600;
+
+                &:last-of-type {
+                  margin-right: 0;
+                }
+
+                &.correct-location {
+                  background-color: var(--green);
+                  color: var(--white);
+                }
+
+                &.incorrect-location {
+                  background-color: var(--yellow);
+                  color: var(--white);
+                }
+
+                &.not-found {
+                  background-color: var(--darkgray);
+                  color: var(--white);
+                }
+              }
             }
 
             &#playAgain {

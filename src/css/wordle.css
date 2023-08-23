@@ -113,9 +113,21 @@ body {
               display: block; }
             body #game-board #word-board #popups #windows .popup#wonPopup {
               max-width: 200px; }
-            body #game-board #word-board #popups #windows .popup #puzzleWord {
-              text-transform: uppercase;
+            body #game-board #word-board #popups #windows .popup #puzzleWord span {
+              padding: 2px;
+              margin-right: 2px;
               font-weight: 600; }
+              body #game-board #word-board #popups #windows .popup #puzzleWord span:last-of-type {
+                margin-right: 0; }
+              body #game-board #word-board #popups #windows .popup #puzzleWord span.correct-location {
+                background-color: var(--green);
+                color: var(--white); }
+              body #game-board #word-board #popups #windows .popup #puzzleWord span.incorrect-location {
+                background-color: var(--yellow);
+                color: var(--white); }
+              body #game-board #word-board #popups #windows .popup #puzzleWord span.not-found {
+                background-color: var(--darkgray);
+                color: var(--white); }
             body #game-board #word-board #popups #windows .popup#playAgain p {
               margin: 0 0 10px 0; }
             body #game-board #word-board #popups #windows .popup#playAgain button {
