@@ -112,6 +112,55 @@
           <button class="key backspace" value="BACKSPACE">&lt; X</button>
         </div>
       </section>
+      <section id="utils">
+        <button id="show-instructions">?</button>
+      </section>
+    </section>
+    <section id="instructions">
+      <div id="instruction-bg"></div>
+      <div id="instruction-popup">
+        <button id="close-instructions">X</button>
+        <h2>How To Play</h2>
+        <p>Gues the Wordle in 6 tries.</p>
+        <ul>
+          <li>Each guess must be a valid 5-letter word.</li>
+          <li>
+            The color of the tiles will change to show how close your guess was
+            to the word.
+          </li>
+        </ul>
+        <h3>Examples</h3>
+        <div class="example">
+          <div class="word-example">
+            <span class="correct-location">W</span>
+            <span>E</span>
+            <span>A</span>
+            <span>R</span>
+            <span>Y</span>
+          </div>
+          <p><strong>W</strong> is in the word and in the correct spot.</p>
+        </div>
+        <div class="example">
+          <div class="word-example">
+            <span>P</span>
+            <span class="incorrect-location">I</span>
+            <span>L</span>
+            <span>L</span>
+            <span>S</span>
+          </div>
+          <p><strong>I</strong> is in the word but in the wrong spot.</p>
+        </div>
+        <div class="example">
+          <div class="word-example">
+            <span>V</span>
+            <span>A</span>
+            <span>G</span>
+            <span class="not-found">U</span>
+            <span>E</span>
+          </div>
+          <p><strong>U</strong> is not in the word in any spot.</p>
+        </div>
+      </div>
     </section>
     <script type="text/javascript" src="src/js/wordle.js"></script>
   </body>
