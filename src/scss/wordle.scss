@@ -39,6 +39,10 @@
   }
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -63,6 +67,10 @@ body {
     max-width: 1200px;
     width: 100%;
     margin: auto;
+
+    > section {
+      margin-bottom: 30px;
+    }
 
     #word-board {
       position: relative;
@@ -226,8 +234,9 @@ body {
 
     #keyboard {
       max-width: 500px;
-      width: 100;
-      margin: auto;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
 
       .keyrow {
         display: flex;
@@ -284,6 +293,113 @@ body {
           &.not-found {
             background-color: var(--darkgray);
             color: var(--white);
+          }
+        }
+      }
+    }
+
+    #utils {
+      width: 100%;
+      text-align: center;
+
+      button {
+        height: 35px;
+        width: 35px;
+        border: 1px solid var(--gray);
+        border-radius: 50%;
+        font-size: 1.25em;
+        color: var(--darkgray);
+        background: none;
+
+        &:hover {
+          border: 1px solid var(--darkgray);
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  #instructions {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.hide {
+      display: none;
+    }
+
+    #instruction-bg {
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: var(--gray);
+      z-index: 1;
+      opacity: 0.75;
+    }
+
+    #instruction-popup {
+      max-width: 600px;
+      width: 100%;
+      border: 1px solid var(--black);
+      opacity: 100%;
+      background-color: var(--white);
+      padding: 10px;
+      border-radius: 10px;
+      z-index: 2;
+
+      p {
+        font-size: 1.25em;
+      }
+
+      li {
+        line-height: 1.5em;
+      }
+
+      #close-instructions {
+        float: right;
+        border: 1px solid var(--white);
+        background: none;
+        font-size: 1em;
+
+        &:hover {
+          border: 1px solid var(--gray);
+        }
+      }
+
+      .example {
+        .word-example {
+          span {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--darkgray);
+            width: 50px;
+            height: 50px;
+            text-transform: uppercase;
+            font-size: 2rem;
+            font-weight: 700;
+
+            &.correct-location {
+              background-color: var(--green);
+              color: var(--white);
+            }
+
+            &.incorrect-location {
+              background-color: var(--yellow);
+              color: var(--white);
+            }
+
+            &.not-found {
+              background-color: var(--darkgray);
+              color: var(--white);
+            }
           }
         }
       }
