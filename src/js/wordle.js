@@ -46,6 +46,14 @@ const addKeyEvents = () => {
   });
 };
 
+const addGiveUpEvents = () => {
+  const giveUpButton = document.querySelector("#give-up");
+  giveUpButton.addEventListener("click", () => {
+    currentLineIndex = lines.length;
+    checkIfEndGame();
+  });
+};
+
 const addInstructionEvents = () => {
   const instructions = document.querySelector("#instructions");
   const hideInstructions = document.querySelector("#close-instructions");
@@ -681,6 +689,7 @@ const startGame = () => {
   currentWordMetrics = setWordMetrics(currentWord);
   addKeyEvents();
   addInstructionEvents();
+  addGiveUpEvents();
   addPlayAgainEvents();
 };
 startGame();
