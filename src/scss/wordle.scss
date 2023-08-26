@@ -23,19 +23,19 @@
 
 @keyframes shake-line {
   0% {
-    translate: 0;
+    transform: translateX(0);
   }
   25% {
-    translate: -5px;
+    transform: translateX(-5px);
   }
   50% {
-    translate: 0;
+    transform: translateX(0);
   }
   75% {
-    translate: 5px;
+    transform: translateX(5px);
   }
   100% {
-    translate: 0;
+    transform: translateX(0);
   }
 }
 
@@ -249,6 +249,11 @@ body {
           font-size: 1.5rem;
           font-weight: 700;
           background-color: var(--gray);
+
+          &.press {
+            background-color: var(--darkgray);
+            transform: translateY(5px);
+          }
 
           &:last-of-type {
             margin-right: 0px;
