@@ -4,7 +4,7 @@ const keyMap = new Map();
 let currentLineIndex = 0;
 let currentWord;
 let currentWordMetrics;
-let showNotEnoughTimeout;
+let genericPopupTimeout;
 let isGameOver = false;
 let areInstructionsShown = true;
 
@@ -162,18 +162,47 @@ const shakeLetter = (letter) => {
   }, 250);
 };
 
+const shakeLine = (line) => {
+  line.classList.add(styleNames.SHAKE_LINE);
+  setTimeout(() => {
+    line.classList.remove(styleNames.SHAKE_LINE);
+  }, 500);
+};
+
 const validateValue = () => {
   const letters = getCurrentLineLetters();
 
   const emptyLetter = letters.find((letter) => letter.innerHTML?.length === 0);
   if (emptyLetter) {
-    lines[currentLineIndex].classList.add(styleNames.SHAKE_LINE);
-    showNotEnough();
+    showGenericPopup("Not enough letters");
+    shakeLine(lines[currentLineIndex]);
+    return;
+  }
 
-    setTimeout(() => {
-      lines[currentLineIndex].classList.remove(styleNames.SHAKE_LINE);
-    }, 500);
+  //Check if word is in library
+  const wordAdded = letters
+    .map((letter) => letter.innerHTML)
+    .join("")
+    .toLowerCase();
+  if (!library.includes(wordAdded)) {
+    showGenericPopup("Not in word list.");
+    shakeLine(lines[currentLineIndex]);
+    return;
+  }
 
+  //Check if word was already added
+  const words = Array.from(lines)
+    .filter((line, index) => index !== currentLineIndex)
+    .map((line) =>
+      Array.from(line.querySelectorAll(".letter"))
+        .map((letter) => letter.innerHTML)
+        .join("")
+        .toLowerCase()
+    )
+    .filter((word) => 0 < word.length);
+  if (words.includes(wordAdded)) {
+    showGenericPopup("Word already added.");
+    shakeLine(lines[currentLineIndex]);
     return;
   }
 
@@ -207,13 +236,16 @@ const setKeyStyle = (key, style) => {
   key.classList.add(style);
 };
 
-const showNotEnough = () => {
-  const notEnoughLetters = document.querySelector("#notEnoughLetters");
-  if (notEnoughLetters) notEnoughLetters.classList.add(styleNames.SHOW_POPUP);
-  if (!showNotEnoughTimeout) clearInterval(showNotEnoughTimeout);
+const showGenericPopup = (message) => {
+  const genericPopup = document.querySelector("#genericPopup");
+  if (genericPopup) {
+    genericPopup.classList.add(styleNames.SHOW_POPUP);
+    genericPopup.querySelector("#genericMessage").innerHTML = message;
+  }
 
-  showNotEnoughTimeout = setTimeout(() => {
-    notEnoughLetters.classList.remove(styleNames.SHOW_POPUP);
+  if (!genericPopupTimeout) clearInterval(genericPopupTimeout);
+  genericPopupTimeout = setTimeout(() => {
+    genericPopup.classList.remove(styleNames.SHOW_POPUP);
   }, 1000);
 };
 
@@ -279,6 +311,11 @@ const resetGame = () => {
     key.classList = validStyles.join(" ");
   });
 
+  const genericPopup = document.querySelector("#genericPopup");
+  if (genericPopup) {
+    genericPopup.querySelector("#genericMessage").innerHTML = "";
+  }
+
   document.querySelector("#puzzleWord").innerHTML = "";
 
   currentLineIndex = 0;
@@ -286,9 +323,9 @@ const resetGame = () => {
   currentWordMetrics = setWordMetrics(currentWord);
   isGameOver = false;
 
-  if (showNotEnoughTimeout) {
-    clearInterval(showNotEnoughTimeout);
-    showNotEnoughTimeout = null;
+  if (genericPopupTimeout) {
+    clearInterval(genericPopupTimeout);
+    genericPopupTimeout = null;
   }
 };
 
