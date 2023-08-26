@@ -162,7 +162,7 @@ const shakeLetter = (letter) => {
   }, 250);
 };
 
-const shakeCurrentLine = (line) => {
+const shakeLine = (line) => {
   line.classList.add(styleNames.SHAKE_LINE);
   setTimeout(() => {
     line.classList.remove(styleNames.SHAKE_LINE);
@@ -175,7 +175,7 @@ const validateValue = () => {
   const emptyLetter = letters.find((letter) => letter.innerHTML?.length === 0);
   if (emptyLetter) {
     showGenericPopup("Not enough letters");
-    shakeCurrentLine(lines[currentLineIndex]);
+    shakeLine(lines[currentLineIndex]);
     return;
   }
 
@@ -186,7 +186,7 @@ const validateValue = () => {
     .toLowerCase();
   if (!library.includes(wordAdded)) {
     showGenericPopup("Not in word list.");
-    shakeCurrentLine(lines[currentLineIndex]);
+    shakeLine(lines[currentLineIndex]);
     return;
   }
 
@@ -202,7 +202,7 @@ const validateValue = () => {
     .filter((word) => 0 < word.length);
   if (words.includes(wordAdded)) {
     showGenericPopup("Word already added.");
-    shakeCurrentLine(lines[currentLineIndex]);
+    shakeLine(lines[currentLineIndex]);
     return;
   }
 
