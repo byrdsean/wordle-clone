@@ -8,7 +8,7 @@ This slider uses plain vanilla Javascript to replicate the "Wordle" game, owned 
 
 ## How to use
 
-Open the `dest/index.html` file.
+Open the `index.html` file.
 
 ## How to build and run this project
 
@@ -27,7 +27,6 @@ You should have the following installed on your computer:
    - Compile the Sass (\*.scss) files to CSS.
    - Minify the CSS.
    - Minify the Javascript.
-   - Place the minified files into the `dest` folder.
 
 ## Screenshots
 
