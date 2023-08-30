@@ -76,8 +76,6 @@ body {
             text-transform: uppercase;
             font-size: 2rem;
             font-weight: 700; }
-            body #game-board #word-board #word-attempts .line .letter.populated {
-              border: 1px solid var(--black); }
             body #game-board #word-board #word-attempts .line .letter.correct-location {
               background-color: var(--green);
               color: var(--white); }
@@ -87,6 +85,8 @@ body {
             body #game-board #word-board #word-attempts .line .letter.not-found {
               background-color: var(--darkgray);
               color: var(--white); }
+            body #game-board #word-board #word-attempts .line .letter.populated {
+              border: 1px solid var(--black); }
             body #game-board #word-board #word-attempts .line .letter.shake {
               animation-duration: 0.25s;
               animation-name: shake-letter;
@@ -104,7 +104,7 @@ body {
           width: 200px; }
           body #game-board #word-board #popups #windows .popup {
             background-color: var(--black);
-            color: white;
+            color: var(--white);
             text-align: center;
             max-width: 250px;
             width: 100%;
@@ -122,14 +122,17 @@ body {
               padding: 2px;
               margin-right: 2px;
               font-weight: 600; }
-              body #game-board #word-board #popups #windows .popup #puzzleWord span:last-of-type {
-                margin-right: 0; }
               body #game-board #word-board #popups #windows .popup #puzzleWord span.correct-location {
                 background-color: var(--green);
                 color: var(--white); }
               body #game-board #word-board #popups #windows .popup #puzzleWord span.incorrect-location {
                 background-color: var(--yellow);
                 color: var(--white); }
+              body #game-board #word-board #popups #windows .popup #puzzleWord span.not-found {
+                background-color: var(--darkgray);
+                color: var(--white); }
+              body #game-board #word-board #popups #windows .popup #puzzleWord span:last-of-type {
+                margin-right: 0; }
               body #game-board #word-board #popups #windows .popup #puzzleWord span.not-found {
                 background-color: var(--darkgray);
                 color: var(--white); }
@@ -175,6 +178,15 @@ body {
           font-size: 1.5rem;
           font-weight: 700;
           background-color: var(--gray); }
+          body #game-board #keyboard .keyrow .key.correct-location {
+            background-color: var(--green);
+            color: var(--white); }
+          body #game-board #keyboard .keyrow .key.incorrect-location {
+            background-color: var(--yellow);
+            color: var(--white); }
+          body #game-board #keyboard .keyrow .key.not-found {
+            background-color: var(--darkgray);
+            color: var(--white); }
           body #game-board #keyboard .keyrow .key.press {
             background-color: var(--darkgray);
             transform: translateY(5px); }
@@ -188,15 +200,6 @@ body {
             min-width: 60px;
             max-width: 60px;
             font-size: 0.75rem; }
-          body #game-board #keyboard .keyrow .key.correct-location {
-            background-color: var(--green);
-            color: var(--white); }
-          body #game-board #keyboard .keyrow .key.incorrect-location {
-            background-color: var(--yellow);
-            color: var(--white); }
-          body #game-board #keyboard .keyrow .key.not-found {
-            background-color: var(--darkgray);
-            color: var(--white); }
     body #game-board #utils {
       width: 100%;
       text-align: center; }
