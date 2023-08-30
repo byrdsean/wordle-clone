@@ -5,8 +5,8 @@
   "main": "index.html",
   "scripts": {
     "compile-scss": "node-sass src/scss/wordle.scss src/css/wordle.css",
-    "minify-css": "node-sass src/scss/wordle.scss dest/wordle.min.css --output-style compressed",
-    "minify-js": "uglifyjs src/js/wordle.js --mangle --compress --output dest/wordle.min.js",
+    "minify-css": "node-sass src/scss/wordle.scss src/css/wordle.min.css --output-style compressed",
+    "minify-js": "uglifyjs src/js/wordle.js --mangle --compress --output src/js/wordle.min.js",
     "build": "npm run compile-scss && npm run minify-css && npm run minify-js"
   },
   "repository": {
