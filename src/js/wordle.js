@@ -20,7 +20,7 @@ const styleNames = {
   DEFAULT_KEY_STYLES: ["key", "enter", "backspace"],
 };
 
-const addKeyEvents = () => {
+function addKeyEvents() {
   document.querySelectorAll(".key").forEach((element) => {
     const letter = element.getAttribute("value");
     if (!letter) return;
@@ -44,17 +44,17 @@ const addKeyEvents = () => {
   window.addEventListener("keyup", (e) => {
     removePressedKey(e.key);
   });
-};
+}
 
-const addGiveUpEvents = () => {
+function addGiveUpEvents() {
   const giveUpButton = document.querySelector("#give-up");
   giveUpButton.addEventListener("click", () => {
     currentLineIndex = lines.length;
     checkIfEndGame();
   });
-};
+}
 
-const addInstructionEvents = () => {
+function addInstructionEvents() {
   const instructions = document.querySelector("#instructions");
   const hideInstructions = document.querySelector("#close-instructions");
   const instructionBg = document.querySelector("#instruction-bg");
@@ -75,9 +75,9 @@ const addInstructionEvents = () => {
   //Make sure instructions are shown by default
   instructions.classList.remove("hide");
   areInstructionsShown = true;
-};
+}
 
-const addPlayAgainEvents = () => {
+function addPlayAgainEvents() {
   document.querySelector("#playAgainYes").addEventListener("click", (e) => {
     resetGame();
   });
@@ -87,24 +87,24 @@ const addPlayAgainEvents = () => {
       .querySelector("#playAgain")
       .classList.remove(styleNames.SHOW_POPUP);
   });
-};
+}
 
-const showPressedKey = (letter) => {
+function showPressedKey(letter) {
   const pressedKey = keyMap.get(letter.toUpperCase());
   if (pressedKey) pressedKey.classList.add(styleNames.KEY_PRESS);
-};
+}
 
-const removePressedKey = (letter) => {
+function removePressedKey(letter) {
   const pressedKey = keyMap.get(letter.toUpperCase());
   if (pressedKey) pressedKey.classList.remove(styleNames.KEY_PRESS);
-};
+}
 
-const getCurrentWord = () => {
+function getCurrentWord() {
   const index = Math.floor(Math.random() * library.length);
   return library[index].toUpperCase();
-};
+}
 
-const setWordMetrics = (word) => {
+function setWordMetrics(word) {
   const metrics = new Map();
   if (!word) return metrics;
 
@@ -113,9 +113,9 @@ const setWordMetrics = (word) => {
     metrics.set(letter, [...letterMetric, index]);
   });
   return metrics;
-};
+}
 
-const keypress = (value) => {
+function keypress(value) {
   if (
     areInstructionsShown ||
     isGameOver ||
@@ -135,12 +135,13 @@ const keypress = (value) => {
   if (asciiUpperValue < asciiA || asciiZ < asciiUpperValue) return;
 
   addLetter(upperValue);
-};
+}
 
-const getCurrentLineLetters = () =>
-  Array.from(lines[currentLineIndex].querySelectorAll(".letter"));
+function getCurrentLineLetters() {
+  return Array.from(lines[currentLineIndex].querySelectorAll(".letter"));
+}
 
-const removeLetter = () => {
+function removeLetter() {
   const toRemove = getCurrentLineLetters()
     .reverse()
     .find((letter) => letter.innerHTML?.length !== 0);
@@ -149,9 +150,9 @@ const removeLetter = () => {
     toRemove.classList.remove(styleNames.POPULATED_LETTER);
     shakeLetter(toRemove);
   }
-};
+}
 
-const addLetter = (value) => {
+function addLetter(value) {
   const nextLetter = getCurrentLineLetters().find(
     (letter) => letter.innerHTML?.length === 0
   );
@@ -160,24 +161,24 @@ const addLetter = (value) => {
     nextLetter.classList.add(styleNames.POPULATED_LETTER);
     shakeLetter(nextLetter);
   }
-};
+}
 
-const shakeLetter = (letter) => {
+function shakeLetter(letter) {
   letter.classList.add(styleNames.SHAKE_LETTER);
 
   setTimeout(() => {
     letter.classList.remove(styleNames.SHAKE_LETTER);
   }, 250);
-};
+}
 
-const shakeLine = (line) => {
+function shakeLine(line) {
   line.classList.add(styleNames.SHAKE_LINE);
   setTimeout(() => {
     line.classList.remove(styleNames.SHAKE_LINE);
   }, 500);
-};
+}
 
-const validateValue = () => {
+function validateValue() {
   const letters = getCurrentLineLetters();
 
   const emptyLetter = letters.find((letter) => letter.innerHTML?.length === 0);
@@ -237,14 +238,14 @@ const validateValue = () => {
 
   currentLineIndex++;
   checkIfEndGame();
-};
+}
 
-const setKeyStyle = (key, style) => {
+function setKeyStyle(key, style) {
   if (key.classList.length !== 1) return;
   key.classList.add(style);
-};
+}
 
-const showGenericPopup = (message) => {
+function showGenericPopup(message) {
   const genericPopup = document.querySelector("#genericPopup");
   if (genericPopup) {
     genericPopup.classList.add(styleNames.SHOW_POPUP);
@@ -255,9 +256,9 @@ const showGenericPopup = (message) => {
   genericPopupTimeout = setTimeout(() => {
     genericPopup.classList.remove(styleNames.SHOW_POPUP);
   }, 1000);
-};
+}
 
-const checkIfEndGame = () => {
+function checkIfEndGame() {
   const lastLine = lines[currentLineIndex - 1];
   const lastWordAdded = Array.from(lastLine.querySelectorAll(".letter"))
     .map((letter) => letter.innerHTML)
@@ -279,9 +280,9 @@ const checkIfEndGame = () => {
   if (isGameOver) {
     document.querySelector("#playAgain").classList.add(styleNames.SHOW_POPUP);
   }
-};
+}
 
-const showPuzzleWord = (container) => {
+function showPuzzleWord(container) {
   if (!container || !currentWord) return;
   currentWord.split("").forEach((letter) => {
     const span = document.createElement("span");
@@ -300,9 +301,9 @@ const showPuzzleWord = (container) => {
 
     container.appendChild(span);
   });
-};
+}
 
-const resetGame = () => {
+function resetGame() {
   Array.from(document.querySelectorAll(".popup")).forEach((popup) => {
     popup.classList.remove(styleNames.SHOW_POPUP);
   });
@@ -335,361 +336,21 @@ const resetGame = () => {
     clearInterval(genericPopupTimeout);
     genericPopupTimeout = null;
   }
-};
+}
 
-const getLibrary = () => {
-  return [
-    "about",
-    "above",
-    "abuse",
-    "adult",
-    "after",
-    "again",
-    "agree",
-    "alarm",
-    "allow",
-    "alone",
-    "along",
-    "among",
-    "angry",
-    "apart",
-    "apple",
-    "apply",
-    "argue",
-    "asked",
-    "avoid",
-    "basis",
-    "beach",
-    "beads",
-    "begin",
-    "being",
-    "black",
-    "block",
-    "blood",
-    "board",
-    "books",
-    "boots",
-    "brand",
-    "brave",
-    "bread",
-    "break",
-    "bring",
-    "broke",
-    "brown",
-    "build",
-    "bulls",
-    "cabin",
-    "cares",
-    "carry",
-    "catch",
-    "cause",
-    "cells",
-    "chair",
-    "check",
-    "chest",
-    "chief",
-    "child",
-    "chips",
-    "claim",
-    "class",
-    "clean",
-    "clear",
-    "cliff",
-    "close",
-    "color",
-    "comes",
-    "couch",
-    "could",
-    "court",
-    "cover",
-    "cream",
-    "crime",
-    "crops",
-    "cross",
-    "crush",
-    "dance",
-    "death",
-    "doesn",
-    "doing",
-    "dozen",
-    "dream",
-    "dress",
-    "drink",
-    "drive",
-    "dryer",
-    "early",
-    "earns",
-    "eases",
-    "eaten",
-    "egges",
-    "eight",
-    "empty",
-    "ended",
-    "enjoy",
-    "enter",
-    "event",
-    "every",
-    "faith",
-    "favor",
-    "fears",
-    "field",
-    "fight",
-    "final",
-    "first",
-    "fixed",
-    "flies",
-    "floor",
-    "flour",
-    "focus",
-    "force",
-    "fresh",
-    "front",
-    "fruit",
-    "funny",
-    "glass",
-    "going",
-    "grass",
-    "great",
-    "green",
-    "group",
-    "guess",
-    "happy",
-    "haven",
-    "heard",
-    "heart",
-    "heavy",
-    "helps",
-    "hired",
-    "hotel",
-    "house",
-    "human",
-    "hurts",
-    "image",
-    "issue",
-    "items",
-    "japan",
-    "keeps",
-    "knows",
-    "large",
-    "later",
-    "latin",
-    "laugh",
-    "leads",
-    "learn",
-    "least",
-    "leave",
-    "legal",
-    "level",
-    "light",
-    "liked",
-    "likes",
-    "liter",
-    "lived",
-    "lives",
-    "local",
-    "looks",
-    "loved",
-    "lower",
-    "lunch",
-    "lying",
-    "magic",
-    "major",
-    "makes",
-    "maria",
-    "masks",
-    "match",
-    "maybe",
-    "media",
-    "might",
-    "miles",
-    "mitch",
-    "model",
-    "money",
-    "month",
-    "moved",
-    "movie",
-    "music",
-    "named",
-    "needs",
-    "never",
-    "nicer",
-    "niece",
-    "night",
-    "noisy",
-    "north",
-    "notes",
-    "occur",
-    "offer",
-    "often",
-    "older",
-    "order",
-    "other",
-    "paper",
-    "party",
-    "peace",
-    "phone",
-    "photo",
-    "piece",
-    "place",
-    "plane",
-    "plant",
-    "point",
-    "porch",
-    "pound",
-    "power",
-    "price",
-    "prove",
-    "puppy",
-    "quiet",
-    "quite",
-    "radio",
-    "raise",
-    "range",
-    "reach",
-    "ready",
-    "relax",
-    "reply",
-    "reuse",
-    "right",
-    "rocks",
-    "ropes",
-    "rough",
-    "ruins",
-    "rules",
-    "salad",
-    "sales",
-    "santa",
-    "scene",
-    "score",
-    "seats",
-    "sense",
-    "serve",
-    "seven",
-    "shake",
-    "share",
-    "shelf",
-    "shirt",
-    "shock",
-    "shoes",
-    "shoot",
-    "short",
-    "shows",
-    "since",
-    "skill",
-    "sleep",
-    "slice",
-    "small",
-    "smith",
-    "smoke",
-    "solid",
-    "solve",
-    "sorry",
-    "sound",
-    "south",
-    "space",
-    "speak",
-    "spend",
-    "sport",
-    "spray",
-    "spree",
-    "staff",
-    "stage",
-    "stand",
-    "start",
-    "state",
-    "stays",
-    "still",
-    "stock",
-    "stole",
-    "store",
-    "storm",
-    "story",
-    "stove",
-    "study",
-    "stuff",
-    "style",
-    "sugar",
-    "sunny",
-    "swift",
-    "table",
-    "taken",
-    "takes",
-    "talks",
-    "teach",
-    "teens",
-    "thank",
-    "their",
-    "theme",
-    "there",
-    "these",
-    "thing",
-    "think",
-    "third",
-    "those",
-    "three",
-    "threw",
-    "throw",
-    "tight",
-    "times",
-    "tired",
-    "today",
-    "toned",
-    "topic",
-    "touch",
-    "tough",
-    "track",
-    "trade",
-    "trail",
-    "train",
-    "trash",
-    "treat",
-    "trial",
-    "trick",
-    "tried",
-    "truck",
-    "trust",
-    "truth",
-    "twice",
-    "under",
-    "until",
-    "upset",
-    "value",
-    "video",
-    "virus",
-    "visit",
-    "voice",
-    "wants",
-    "watch",
-    "water",
-    "weeks",
-    "where",
-    "which",
-    "while",
-    "white",
-    "whole",
-    "whose",
-    "woman",
-    "woods",
-    "works",
-    "world",
-    "worry",
-    "worth",
-    "would",
-    "write",
-    "wrong",
-    "years",
-    "young",
-    "yours",
-  ];
-};
+async function getLibrary() {
+  const response = await fetch("data/library.json");
+  const json = await response.json();
+  return json.library;
+}
 
-const startGame = () => {
-  library = getLibrary();
+async function startGame() {
+  library = await getLibrary();
   currentWord = getCurrentWord();
   currentWordMetrics = setWordMetrics(currentWord);
   addKeyEvents();
   addInstructionEvents();
   addGiveUpEvents();
   addPlayAgainEvents();
-};
+}
 startGame();
