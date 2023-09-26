@@ -8,7 +8,10 @@ This slider uses plain vanilla Javascript to replicate the "Wordle" game, owned 
 
 ## How to use
 
-Open the `index.html` file.
+There are two options for viewing this project:
+
+1. Open the `index.html` file, OR
+2. View it online: https://byrdsean.github.io/wordle-clone/
 
 ## How to build and run this project
 
